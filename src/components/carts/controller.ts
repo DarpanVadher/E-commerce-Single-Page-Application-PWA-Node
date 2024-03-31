@@ -264,10 +264,41 @@ const checkPaymentStatus = async (
     next(error);
   }
 };
+
+const downloadInvoice = async (
+  req: Request,
+  res: Response,
+  next: NextFunction,
+) => {
+  try {
+    const shipmentId = req.headers.shipmentid as string;
+    const invoice = await cartServices.downloadInvoice(shipmentId);
+    res.status(OK).json(apiResponse(invoice));
+  } catch (error) {
+    next(error);
+  }
+};
+
+const shipmentTrack = async (
+  req: Request,
+  res: Response,
+  next: NextFunction,
+) => {
+  try {
+    const shipmentId = req.headers.shipmentid as string;
+    const track = await cartServices.shipmentTrack(shipmentId);
+    res.status(OK).json(apiResponse(track));
+  } catch (error) {
+    next(error);
+  }
+};
+
 export default {
   getCart,
   addProductToCart,
   updateProductToCart,
   checkoutCart,
   checkPaymentStatus,
+  downloadInvoice,
+  shipmentTrack,
 };

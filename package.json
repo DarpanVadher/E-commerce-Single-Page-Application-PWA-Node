@@ -4,7 +4,7 @@
    "description": "API Server | Typescript Node Express Rest API server",
    "license": "MIT",
    "scripts": {
-      "prepare": "husky install",
+      "prepare": "husky install && npm i prisma && prisma generate",
       "lint": "eslint 'src/**/*.{ts,js}' '__tests__/**/*.{ts,js}'",
       "lint:fix": "eslint --fix 'src/**/*.{ts,js}' '__tests__/**/*.{ts,js}' --quiet",
       "transpile": "tsc",
@@ -56,6 +56,7 @@
       "morgan": "^1.8.2",
       "mysql2": "^3.9.2",
       "pino-pretty": "^10.3.0",
+      "prisma": "^5.11.0",
       "razorpay": "^2.9.2",
       "reflect-metadata": "^0.1.13",
       "rimraf": "^3.0.2",

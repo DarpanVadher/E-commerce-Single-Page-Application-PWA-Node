@@ -30,4 +30,16 @@ cartRouter.get(
   cartController.checkPaymentStatus,
 );
 
+cartRouter.get(
+  "/downloadinvoice",
+  sanitizer(appKeyValidator),
+  cartController.downloadInvoice,
+);
+
+cartRouter.get(
+  "/shipmenttrack",
+  sanitizer(appKeyValidator),
+  cartController.shipmentTrack,
+);
+
 export default cartRouter;
