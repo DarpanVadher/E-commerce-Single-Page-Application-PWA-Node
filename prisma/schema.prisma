@@ -1,0 +1,94 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id    Int     @id @default(autoincrement())
+  email String  @unique
+  name  String?
+}
+
+model Product {
+  id               Int                @id @default(autoincrement())
+  name             String
+  price            Int
+  quantity         Int
+  imageUrl         String
+  tax              Int
+  Cart_Details     Cart_Details[]
+  Shipment_Details Shipment_Details[]
+}
+
+model Cart {
+  id           Int            @id @default(autoincrement())
+  Sessions     Sessions       @relation(fields: [sessionId], references: [sessionId])
+  sessionId    String         @unique
+  Cart_Details Cart_Details[]
+}
+
+model Cart_Details {
+  id        Int     @id @default(autoincrement())
+  cart      Cart    @relation(fields: [cartId], references: [id])
+  cartId    Int
+  product   Product @relation(fields: [productId], references: [id])
+  productId Int
+  quantity  Int
+}
+
+model Shipments {
+  id               Int                @id @default(autoincrement())
+  Sessions         Sessions           @relation(fields: [sessionId], references: [sessionId])
+  sessionId        String
+  Shipment_Details Shipment_Details[]
+  created_at       DateTime           @default(now())
+  updated_at       DateTime           @updatedAt
+  total_before_tax Int
+  total_tax        Int
+  total            Int
+  billingAddress   String
+  shipingAddress   String
+  payments         Payments?
+}
+
+model Shipment_Details {
+  id               Int       @id @default(autoincrement())
+  shipment         Shipments @relation(fields: [shipmentId], references: [id])
+  shipmentId       Int
+  product          Product   @relation(fields: [productId], references: [id])
+  productId        Int
+  quantity         Int
+  price            Int
+  tax              Int
+  total_before_tax Int
+  total_tax        Int
+  total            Int
+}
+
+model Payments {
+  id            Int       @id @default(autoincrement())
+  shipment      Shipments @relation(fields: [shipmentId], references: [id])
+  shipmentId    Int       @unique
+  amount        Int
+  paymentDate   DateTime  @default(now())
+  paymentMethod String
+  transectionId String
+}
+
+model Sessions {
+  sessionId      String      @id @unique
+  creationDate   DateTime    @default(now())
+  lastActiveDate DateTime    @updatedAt
+  Cart           Cart?
+  Shipments      Shipments[]
+}

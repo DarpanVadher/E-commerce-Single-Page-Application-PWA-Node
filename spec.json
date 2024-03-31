@@ -1,0 +1,20 @@
+{
+    "openapi": "3.0.0",
+    "info": {
+        "title": "API Server",
+        "version": "v1.0"
+    },
+    "servers": [
+        {
+            "url": "http://localhost:5000/"
+        }
+    ],
+    "paths": {
+        "/api/v1/": {
+            "tags": [],
+            "get": {
+                "operationId": "GETAPIINFO"
+            }
+        }
+  }
+}
